@@ -1,7 +1,24 @@
 from tkinter import *
+from tkinter import messagebox
+import random
+# ---------------------------- GLOBAL VARIABLES ---------------------------- #r̥
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+def password_save():
+
+		if website_entry.get() == '' or password_entry.get() == '':
+			messagebox.showinfo(title="Error", message="Please enter Valid Information")
+		else:
+			is_ok = messagebox.askokcancel(title=website_entry.get(),
+			                               message=f"These are the details Entered: \n Email: {email_entry.get()}"
+			                                       f"\n Password: {password_entry.get()}\n Is it ok to save?")
+			if is_ok:
+				with open("password.txt", "a") as data_file:
+					data_file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()}\n")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -28,14 +45,14 @@ website_entry.grid(row=1, column=1, columnspan=2)
 website_entry.focus()
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2)
-email_entry.insert(0, "angela@gmail.com")
+email_entry.insert(0, "abcd@gmail.com")
 password_entry = Entry(width=21)
 password_entry.grid(row=3, column=1)
 
 # ---------------------------- BUTTONS ------------------------------- #
 generate_password_button = Button(text="Generate Password")
 generate_password_button.grid(row=3, column=2)
-add_button = Button(text="Add", width=30)
+add_button = Button(text="Add", width=30 , command=password_save)
 add_button.grid(row=4, column=1, columnspan=2)
 
 window.mainloop()
