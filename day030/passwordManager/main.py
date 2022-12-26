@@ -38,13 +38,13 @@ def password_save():
 				"password" : password,
 			}
 		}
-
 		if website_entry.get() == '' or password_entry.get() == '':
 			messagebox.showinfo(title="Error", message="Please enter Valid Information")
 		else:
 				try:
 					with open("data.json","r") as data_file:
 						data = json.load(data_file)
+
 				except FileNotFoundError:
 					with open("data.json", "w") as data_file:
 						json.dump(new_data, data_file,indent=4)
@@ -56,7 +56,22 @@ def password_save():
 					website_entry.delete(0,END)
 					password_entry.delete(0,END)
 
+
 def find_password():
+	try:
+		with open("data.json", "r") as data_file:
+			data = json.load(data_file)
+	except FileNotFoundError:
+		messagebox.showinfo(title="Error" , message="No Data file found")
+	else:
+		user_input = website_entry.get()
+		if user_input in data.keys():
+			password = data[user_input]['password']
+			messagebox.showinfo(title="Error", message=f"website:{user_input}\npassword:{password}")
+		else:
+			messagebox.showinfo(title="Error",message=f"No details for the website exists")
+
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -92,6 +107,6 @@ generate_password_button = Button(text="Generate Password", command=generate_pas
 generate_password_button.grid(row=3, column=2)
 add_button = Button(text="Add", width=30 , command=password_save)
 add_button.grid(row=4, column=1, columnspan=2)
-search_button = Button(text="Search",width=20,command=find_password)
+search_button = Button(text="Search",width=20, command=find_password)
 search_button.grid(row=1, column=2, columnspan=2)
 window.mainloop()
